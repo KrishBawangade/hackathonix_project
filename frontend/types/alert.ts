@@ -1,12 +1,26 @@
-export type Severity = "low" | "medium" | "high" | "critical"
+export type AlertSeverity = "critical" | "warning" | "info";
 
-export type AlertStatus = "Open" | "Resolved"
+export type AlertType =
+  | "HIGH_CPU"
+  | "HIGH_MEMORY"
+  | "DEVICE_OFFLINE"
+  | "TRAFFIC_SPIKE"
+  | "DDOS_ATTACK"
+  | "PORT_SCAN"
+  | "BRUTE_FORCE";
 
 export interface Alert {
-  id: string
-  title: string
-  source: string
-  severity: Severity
-  status: AlertStatus
-  time: string
+  id: string;
+
+  deviceId: string;
+  deviceName: string;
+
+  type: AlertType;
+  severity: AlertSeverity;
+
+  message: string;
+
+  timestamp: number;
+
+  acknowledged: boolean;
 }
