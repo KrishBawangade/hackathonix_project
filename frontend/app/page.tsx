@@ -1,92 +1,172 @@
+"use client";
+
+import StatsGrid from "@/components/dashboard/StatsGrid";
+import TrafficAnalysis from "@/components/dashboard/TrafficAnalysis";
+import SystemStatusCard from "@/components/dashboard/SystemStatusCard";
+import RecentAlertsCard from "@/components/dashboard/RecentAlertsCard";
+import RecentActivityCard from "@/components/dashboard/RecentActivityCard";
+import WeeklyAlertTrend from "@/components/dashboard/WeeklyAlertTrend";
+import NetworkSnapshotCard from "@/components/dashboard/NetworkSnapshotCard";
+
+const trafficData = [
+  { time: "00:00", inbound: 40, outbound: 24 },
+  { time: "04:00", inbound: 30, outbound: 18 },
+  { time: "08:00", inbound: 52, outbound: 30 },
+  { time: "12:00", inbound: 78, outbound: 50 },
+  { time: "16:00", inbound: 64, outbound: 42 },
+  { time: "20:00", inbound: 90, outbound: 60 },
+];
+
+const alertTrendData = [
+  { day: "Mon", alerts: 2 },
+  { day: "Tue", alerts: 4 },
+  { day: "Wed", alerts: 3 },
+  { day: "Thu", alerts: 6 },
+  { day: "Fri", alerts: 5 },
+  { day: "Sat", alerts: 7 },
+];
+
+const stats = [
+  {
+    title: "Total Devices",
+    value: "128",
+    subtext: "+12 added this week",
+    valueColor: "text-cyan-300",
+    icon: "devices",
+  },
+  {
+    title: "Active Alerts",
+    value: "7",
+    subtext: "2 critical alerts",
+    valueColor: "text-red-400",
+    icon: "alerts",
+  },
+  {
+    title: "Network Uptime",
+    value: "99.92%",
+    subtext: "Stable performance",
+    valueColor: "text-emerald-400",
+    icon: "uptime",
+  },
+  {
+    title: "Traffic Load",
+    value: "68%",
+    subtext: "Moderate load",
+    valueColor: "text-blue-400",
+    icon: "traffic",
+  },
+];
+
+const systemStatus = [
+  {
+    name: "Core Router",
+    status: "Online",
+    color: "text-emerald-400",
+    dot: "bg-emerald-400",
+  },
+  {
+    name: "Firewall",
+    status: "Protected",
+    color: "text-emerald-400",
+    dot: "bg-emerald-400",
+  },
+  {
+    name: "Load Balancer",
+    status: "High Load",
+    color: "text-amber-400",
+    dot: "bg-amber-400",
+  },
+  {
+    name: "Server Cluster",
+    status: "Healthy",
+    color: "text-emerald-400",
+    dot: "bg-emerald-400",
+  },
+  {
+    name: "IDS Sensor",
+    status: "Active",
+    color: "text-cyan-400",
+    dot: "bg-cyan-400",
+  },
+];
+
+const alerts = [
+  {
+    title: "DDoS spike detected",
+    time: "2 min ago",
+    severity: "Critical",
+    dot: "bg-red-400",
+    badge: "border-red-500/30 bg-red-500/10 text-red-300",
+  },
+  {
+    title: "Suspicious login attempts",
+    time: "8 min ago",
+    severity: "Medium",
+    dot: "bg-amber-400",
+    badge: "border-amber-500/30 bg-amber-500/10 text-amber-300",
+  },
+  {
+    title: "Packet drop threshold exceeded",
+    time: "14 min ago",
+    severity: "Medium",
+    dot: "bg-amber-400",
+    badge: "border-amber-500/30 bg-amber-500/10 text-amber-300",
+  },
+  {
+    title: "Abnormal traffic on node-7",
+    time: "19 min ago",
+    severity: "Info",
+    dot: "bg-cyan-400",
+    badge: "border-cyan-500/30 bg-cyan-500/10 text-cyan-300",
+  },
+];
+
+const activities = [
+  "Router-01 connected to network",
+  "Firewall rules updated",
+  "Simulation attack launched",
+  "Alert resolved by admin",
+  "Switch-12 latency normalized",
+];
+
+const networkSnapshot = [
+  { label: "Core Devices", value: "12", valueColor: "text-cyan-300" },
+  { label: "Branch Devices", value: "41", valueColor: "text-blue-300" },
+  { label: "IoT Devices", value: "36", valueColor: "text-amber-300" },
+  { label: "Servers", value: "9", valueColor: "text-emerald-300" },
+];
+
 export default function Home() {
   return (
-    <div className="space-y-8">
-
-      {/* Page Title */}
-      <div>
-        <h1 className="text-2xl font-semibold text-foreground">
-          Security Dashboard
-        </h1>
-        <p className="text-sm text-muted mt-1">
-          Real-time network monitoring overview
-        </p>
-      </div>
-
-      {/* Stats Section */}
-      <div className="grid grid-cols-4 gap-6">
-
-        <div className="bg-panel border border-border rounded-xl p-5">
-          <p className="text-sm text-muted">Active Devices</p>
-          <p className="text-3xl font-bold mt-2">124</p>
+    <div className="min-h-screen bg-[#0b1220] px-6 py-6 text-slate-100">
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-white">
+            Network Overview
+          </h1>
+          <p className="mt-1 text-sm text-slate-400">
+            Real-time visibility of devices, traffic, system health, alerts, and
+            overall network behavior
+          </p>
         </div>
 
-        <div className="bg-panel border border-border rounded-xl p-5">
-          <p className="text-sm text-muted">Alerts Today</p>
-          <p className="text-3xl font-bold text-warning mt-2">18</p>
+        <StatsGrid stats={stats} />
+
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+          <TrafficAnalysis trafficData={trafficData} />
+          <SystemStatusCard systemStatus={systemStatus} />
         </div>
 
-        <div className="bg-panel border border-border rounded-xl p-5">
-          <p className="text-sm text-muted">Critical Threats</p>
-          <p className="text-3xl font-bold text-danger mt-2">3</p>
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+          <RecentAlertsCard alerts={alerts} />
+          <RecentActivityCard activities={activities} />
         </div>
 
-        <div className="bg-panel border border-border rounded-xl p-5">
-          <p className="text-sm text-muted">Network Traffic</p>
-          <p className="text-3xl font-bold text-primary mt-2">1.8 GB/s</p>
-        </div>
-
-      </div>
-
-      {/* Large Panels */}
-      <div className="grid grid-cols-2 gap-6">
-
-        <div className="bg-panel border border-border rounded-xl p-6 h-[350px]">
-          <h2 className="text-sm text-muted mb-4">Network Traffic Graph</h2>
-
-          <div className="flex items-center justify-center h-full text-muted">
-            Traffic visualization coming soon
-          </div>
-        </div>
-
-        <div className="bg-panel border border-border rounded-xl p-6 h-[350px]">
-          <h2 className="text-sm text-muted mb-4">Recent Alerts</h2>
-
-          <div className="space-y-3 text-sm">
-
-            <div className="flex justify-between">
-              <span className="text-danger">Port Scan Detected</span>
-              <span className="text-muted font-mono">192.168.1.22</span>
-            </div>
-
-            <div className="flex justify-between">
-              <span className="text-warning">Suspicious Login</span>
-              <span className="text-muted font-mono">10.0.0.14</span>
-            </div>
-
-            <div className="flex justify-between">
-              <span className="text-success">Device Connected</span>
-              <span className="text-muted font-mono">172.16.2.8</span>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-
-      {/* Large Scroll Area (for blur testing) */}
-      <div className="bg-panel border border-border rounded-xl p-6 h-[800px]">
-        <h2 className="text-sm text-muted mb-4">Network Activity Log</h2>
-
-        <div className="space-y-2 text-sm font-mono text-muted">
-          {Array.from({ length: 40 }).map((_, i) => (
-            <p key={i}>
-              [{new Date().toLocaleTimeString()}] Packet received from
-              192.168.0.{i}
-            </p>
-          ))}
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+          <WeeklyAlertTrend alertTrendData={alertTrendData} />
+          <NetworkSnapshotCard networkSnapshot={networkSnapshot} />
         </div>
       </div>
-
     </div>
   );
 }
