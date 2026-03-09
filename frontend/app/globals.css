@@ -63,3 +63,7 @@ body {
 * {
   border-color: var(--border);
 }
+
+nextjs-portal {
+  display: none !important;
+}
