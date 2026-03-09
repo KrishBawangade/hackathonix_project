@@ -3,6 +3,7 @@ import cors from "cors";
 
 import devicesRoutes from "./routes/devices.routes";
 import trafficRoutes from "./routes/traffic.routes";
+import alertsRoutes from "./routes/alerts.routes";
 
 const app = express();
 
@@ -18,6 +19,8 @@ app.get("/", (req, res) => {
 app.use("/devices", devicesRoutes);
 
 app.use("/traffic", trafficRoutes);
+
+app.use("/alerts", alertsRoutes);
 
 const PORT = 5000;
 
