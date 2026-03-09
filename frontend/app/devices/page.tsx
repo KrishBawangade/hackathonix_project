@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDevices } from "@/hooks/useDevices";
 import { Device } from "@/types/device";
 import DeviceTable from "@/components/devices/DeviceTable";
@@ -8,22 +8,56 @@ import DeviceDetails from "@/components/devices/DeviceDetails";
 import { Server, Activity, AlertTriangle } from "lucide-react";
 
 export default function DevicesPage() {
-  const { devices, loading } = useDevices();
+  const { devices = [], loading, error } = useDevices();
+
   const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
 
+  // Reset selected device if list updates and device disappears
+  useEffect(() => {
+    if (
+      selectedDevice &&
+      !devices.find((d) => d.id === selectedDevice.id)
+    ) {
+      setSelectedDevice(null);
+    }
+  }, [devices, selectedDevice]);
+
   if (loading) {
-    return <div className="p-6 text-muted">Loading devices...</div>;
+    return (
+      <div className="p-6 text-muted">
+        Loading devices...
+      </div>
+    );
   }
 
+  if (error) {
+    return (
+      <div className="p-6 text-red-400">
+        Failed to load devices
+      </div>
+    );
+  }
+
+  /*
+  -------------------------
+  Derived Metrics
+  -------------------------
+  */
+
+  const totalDevices = devices.length;
+
   const online = devices.filter((d) => d.status === "online").length;
+
   const offline = devices.filter((d) => d.status === "offline").length;
+
+  const warning = devices.filter((d) => d.status === "warning").length;
 
   return (
     <div className="p-6 space-y-8">
 
       {/* Page Title */}
       <h1 className="text-2xl font-semibold text-foreground">
-        Devices ({devices.length})
+        Devices ({totalDevices})
       </h1>
 
       {/* Top Metrics Cards */}
@@ -32,7 +66,6 @@ export default function DevicesPage() {
         {/* Total Devices */}
         <div className="relative bg-panel border border-border rounded-xl p-6 overflow-hidden">
 
-          {/* Accent line */}
           <div className="absolute top-0 left-0 w-full h-1 bg-primary"></div>
 
           <div className="flex items-center justify-between">
@@ -40,7 +73,7 @@ export default function DevicesPage() {
             <div>
               <p className="text-muted text-sm">Total Devices</p>
               <p className="text-5xl font-bold text-primary mt-2">
-                {devices.length}
+                {totalDevices}
               </p>
             </div>
 
@@ -50,7 +83,6 @@ export default function DevicesPage() {
 
           </div>
         </div>
-
 
         {/* Online Devices */}
         <div className="relative bg-panel border border-border rounded-xl p-6 overflow-hidden">
@@ -72,7 +104,6 @@ export default function DevicesPage() {
 
           </div>
         </div>
-
 
         {/* Offline Devices */}
         <div className="relative bg-panel border border-border rounded-xl p-6 overflow-hidden">

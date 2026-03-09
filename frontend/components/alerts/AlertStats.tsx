@@ -52,15 +52,16 @@ function StatCard({ title, value, icon, accent }: CardProps) {
 export default function AlertStats({ alerts }: Props) {
 
   let critical = 0;
-  let high = 0;
+  let warning = 0;
   let open = 0;
   let resolved = 0;
 
   alerts.forEach((a) => {
     if (a.severity === "critical") critical++;
-    if (a.severity === "high") high++;
-    if (a.status === "open") open++;
-    if (a.status === "resolved") resolved++;
+    if (a.severity === "warning") warning++;
+
+    if (!a.acknowledged) open++;
+    if (a.acknowledged) resolved++;
   });
 
   return (
@@ -74,8 +75,8 @@ export default function AlertStats({ alerts }: Props) {
       />
 
       <StatCard
-        title="High"
-        value={high}
+        title="Warnings"
+        value={warning}
         icon={<AlertTriangle size={18} className="text-orange-400" />}
         accent="bg-orange-500"
       />

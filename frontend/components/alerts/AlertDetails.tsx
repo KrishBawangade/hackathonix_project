@@ -15,15 +15,14 @@ interface AlertDetailsProps {
 
 /* Severity Badge */
 
-function getSeverityStyle(severity: string) {
+function getSeverityStyle(severity?: string) {
   const styles: Record<string, string> = {
     critical: "bg-red-500/10 text-red-400 border-red-500/30",
-    high: "bg-orange-500/10 text-orange-400 border-orange-500/30",
-    medium: "bg-yellow-500/10 text-yellow-400 border-yellow-500/30",
-    low: "bg-gray-500/10 text-gray-400 border-gray-500/30",
+    warning: "bg-yellow-500/10 text-yellow-400 border-yellow-500/30",
+    info: "bg-blue-500/10 text-blue-400 border-blue-500/30",
   };
 
-  return styles[severity] ?? styles.low;
+  return styles[severity ?? "info"] ?? styles.info;
 }
 
 /* Metadata Row */
@@ -70,7 +69,7 @@ export default function AlertDetails({ alert }: AlertDetailsProps) {
           <AlertTriangle size={20} className="text-red-400" />
 
           <h2 className="text-lg font-semibold text-white">
-            {alert.title}
+            {alert.message}
           </h2>
         </div>
 
@@ -90,7 +89,7 @@ export default function AlertDetails({ alert }: AlertDetailsProps) {
         <MetaRow
           icon={<Server size={16} />}
           label="Source"
-          value={alert.source}
+          value={alert.deviceName}
         />
 
         <MetaRow
@@ -102,13 +101,13 @@ export default function AlertDetails({ alert }: AlertDetailsProps) {
         <MetaRow
           icon={<Clock size={16} />}
           label="Detected"
-          value={alert.time}
+          value={new Date(alert.timestamp).toLocaleString()}
         />
 
         <MetaRow
           icon={<CheckCircle size={16} className="text-green-400" />}
           label="Status"
-          value={alert.status}
+          value={alert.acknowledged ? "Resolved" : "Active"}
         />
       </div>
 

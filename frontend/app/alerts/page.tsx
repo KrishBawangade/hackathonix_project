@@ -10,7 +10,7 @@ import { useAlerts } from "@/hooks/useAlerts";
 import type { Alert } from "@/types/alert";
 
 export default function AlertsPage() {
-  const { alerts } = useAlerts();
+  const { alerts = [], loading, error } = useAlerts();
 
   const [selectedAlert, setSelectedAlert] = useState<Alert | null>(null);
 
@@ -22,9 +22,25 @@ export default function AlertsPage() {
     }
   }, [alerts, selectedAlert]);
 
+  if (loading) {
+    return (
+      <div className="p-6 text-muted-foreground">
+        Loading alerts...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 text-red-400">
+        Failed to load alerts
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-6 h-full">
-      
+
       {/* Page Header */}
 
       <header className="flex items-center justify-between">
@@ -46,7 +62,7 @@ export default function AlertsPage() {
       {/* SOC Workspace */}
 
       <section className="grid grid-cols-12 gap-6 flex-1 min-h-0">
-        
+
         {/* Alerts Table */}
 
         <div className="col-span-12 lg:col-span-7 flex flex-col bg-panel border border-border rounded-lg overflow-hidden">

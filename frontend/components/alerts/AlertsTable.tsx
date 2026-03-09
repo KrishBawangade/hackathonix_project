@@ -17,25 +17,24 @@ interface AlertsTableProps {
 
 /* Severity Badge Styling */
 
-function getSeverityBadge(severity: string) {
+function getSeverityBadge(severity?: string) {
   const styles: Record<string, string> = {
     critical: "bg-red-500/10 text-red-400 border-red-500/30",
-    high: "bg-orange-500/10 text-orange-400 border-orange-500/30",
-    medium: "bg-yellow-500/10 text-yellow-400 border-yellow-500/30",
-    low: "bg-gray-500/10 text-gray-400 border-gray-500/30",
+    warning: "bg-yellow-500/10 text-yellow-400 border-yellow-500/30",
+    info: "bg-blue-500/10 text-blue-400 border-blue-500/30",
   };
 
-  return styles[severity] ?? styles.low;
+  return styles[severity ?? "info"] ?? styles.info;
 }
 
 /* Status Icon */
 
-function getStatusIcon(status: string) {
-  if (status.toLowerCase() === "resolved") {
+function getStatusIcon(acknowledged: boolean) {
+  if (acknowledged) {
     return <CheckCircle size={16} className="text-green-400" />;
   }
 
-  return <Clock size={16} className="text-blue-400" />;
+  return <Clock size={16} className="text-yellow-400" />;
 }
 
 export default function AlertsTable({
@@ -94,14 +93,14 @@ export default function AlertsTable({
                 hover:bg-surface/70
                 ${isSelected ? "bg-surface border-l-4 border-red-500" : ""}`}
               >
-                {/* Alert Title */}
+                {/* Alert Message */}
                 <td className="px-4 py-3 font-medium text-white">
-                  {alert.title}
+                  {alert.message}
                 </td>
 
-                {/* Source */}
+                {/* Device */}
                 <td className="px-4 py-3 text-muted-foreground">
-                  {alert.source}
+                  {alert.deviceName}
                 </td>
 
                 {/* Severity */}
@@ -118,14 +117,14 @@ export default function AlertsTable({
                 {/* Status */}
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-2 text-muted-foreground">
-                    {getStatusIcon(alert.status)}
-                    {alert.status}
+                    {getStatusIcon(alert.acknowledged)}
+                    {alert.acknowledged ? "Resolved" : "Active"}
                   </div>
                 </td>
 
                 {/* Time */}
                 <td className="px-4 py-3 text-xs font-mono text-muted-foreground">
-                  {alert.time}
+                  {new Date(alert.timestamp).toLocaleTimeString()}
                 </td>
               </tr>
             );
