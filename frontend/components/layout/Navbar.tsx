@@ -35,7 +35,7 @@ export default function Navbar() {
       {/* Left Section */}
       <div className="relative z-10 flex items-center gap-6">
         <h1 className="text-sm font-medium text-muted">
-          Security Dashboard
+          Security Monitoring
         </h1>
 
         {/* Search */}
