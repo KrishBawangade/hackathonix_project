@@ -4,6 +4,7 @@ import cors from "cors";
 import devicesRoutes from "./routes/devices.routes";
 import trafficRoutes from "./routes/traffic.routes";
 import alertsRoutes from "./routes/alerts.routes";
+import simulationRoutes from "./routes/simulation.routes";
 
 const app = express();
 
@@ -21,6 +22,8 @@ app.use("/devices", devicesRoutes);
 app.use("/traffic", trafficRoutes);
 
 app.use("/alerts", alertsRoutes);
+
+app.use("/simulation", simulationRoutes);
 
 const PORT = 5000;
 

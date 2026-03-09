@@ -3,7 +3,11 @@ import { generateTrafficMetrics } from "../simulator/trafficSimulator";
 
 export const getTraffic = (req: Request, res: Response) => {
   try {
-    const trafficData = generateTrafficMetrics(30);
+    const points = Number(req.query.points) || 30;
+
+    const trafficData = generateTrafficMetrics({
+      points,
+    });
 
     res.json({
       success: true,
