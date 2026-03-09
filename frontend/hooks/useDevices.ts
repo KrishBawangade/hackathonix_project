@@ -13,28 +13,61 @@ export function useDevices() {
         id: "1",
         name: "Core Router",
         ip: "192.168.1.1",
-        type: "Router",
+        type: "router",
         status: "online",
-        location: "Data Center",
-        lastSeen: "2 sec ago",
+
+        cpuUsage: 42,
+        memoryUsage: 68,
+
+        networkIn: 320,
+        networkOut: 280,
+
+        lastSeen: new Date().toISOString(),
       },
       {
         id: "2",
-        name: "Firewall",
+        name: "Firewall Gateway",
         ip: "192.168.1.254",
-        type: "Firewall",
+        type: "firewall",
         status: "online",
-        location: "Gateway",
-        lastSeen: "5 sec ago",
+
+        cpuUsage: 55,
+        memoryUsage: 47,
+
+        networkIn: 410,
+        networkOut: 390,
+
+        lastSeen: new Date().toISOString(),
       },
       {
         id: "3",
         name: "Database Server",
         ip: "192.168.1.10",
-        type: "Server",
+        type: "server",
+        status: "warning",
+
+        cpuUsage: 87,
+        memoryUsage: 91,
+
+        networkIn: 210,
+        networkOut: 150,
+
+        lastSeen: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
+      },
+      {
+        id: "4",
+        name: "Access Switch",
+        ip: "192.168.1.20",
+        type: "switch",
         status: "offline",
-        location: "Data Center",
-        lastSeen: "10 min ago",
+
+        cpuUsage: 0,
+        memoryUsage: 0,
+
+        networkIn: 0,
+        networkOut: 0,
+
+        lastSeen: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
       },
     ];
 

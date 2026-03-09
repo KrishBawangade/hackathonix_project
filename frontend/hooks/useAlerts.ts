@@ -1,36 +1,41 @@
-import { useState } from "react"
-import { Alert } from "@/types/alert"
+import { useState } from "react";
+import { Alert } from "@/types/alert";
 
 export function useAlerts() {
-
   const [alerts] = useState<Alert[]>([
     {
       id: "1",
-      title: "Suspicious Login Attempt",
-      source: "Auth Server",
-      severity: "high",
-      status: "Open",
-      time: "2 min ago"
+      deviceId: "device-1",
+      deviceName: "Auth Server",
+      type: "BRUTE_FORCE",
+      severity: "critical",
+      message: "Multiple failed login attempts detected",
+      timestamp: Date.now() - 2 * 60 * 1000,
+      acknowledged: false,
     },
     {
       id: "2",
-      title: "Port Scan Detected",
-      source: "Firewall",
-      severity: "medium",
-      status: "Open",
-      time: "10 min ago"
+      deviceId: "device-2",
+      deviceName: "Firewall",
+      type: "PORT_SCAN",
+      severity: "warning",
+      message: "Port scanning activity detected",
+      timestamp: Date.now() - 10 * 60 * 1000,
+      acknowledged: false,
     },
     {
       id: "3",
-      title: "Malware Activity",
-      source: "Endpoint Security",
+      deviceId: "device-3",
+      deviceName: "Endpoint Security",
+      type: "DDOS_ATTACK",
       severity: "critical",
-      status: "Resolved",
-      time: "30 min ago"
-    }
-  ])
+      message: "Abnormal traffic spike detected",
+      timestamp: Date.now() - 30 * 60 * 1000,
+      acknowledged: true,
+    },
+  ]);
 
   return {
-    alerts
-  }
+    alerts,
+  };
 }
